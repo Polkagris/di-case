@@ -6,7 +6,7 @@ import { checkAddress } from "./queries/checkAddress";
 import { useState } from "react";
 import { streetNumberSearch } from "./queries/streetNumberSearch";
 import { Street, StreetNumber, StreetNumberResponse } from "./types/types";
-import { Check, TriangleAlert } from "lucide-react";
+import { Check, TriangleAlert, Bird } from "lucide-react";
 
 export default function Home() {
   const [streetName, setStreetName] = useState("");
@@ -76,7 +76,17 @@ export default function Home() {
         <p>Your search resultet in a valid address.</p>
       </div>
       <div className="flex mt-3">
-        <p>Full address name: </p>
+        <p>
+          Full address name: {streetName} {streetNumber} {entranceLetter}
+        </p>
+      </div>
+    </div>
+  );
+  const noMatchInfo = (
+    <div className="flex flex-col w-2/5 mt-4">
+      <div className="flex ">
+        <Bird className="mr-2 h-8 w-8" />
+        <p>Your search gave no results. Please try a different address.</p>
       </div>
     </div>
   );
@@ -84,7 +94,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <div className="flex flex-col w-2/5 ">
-        <h1>Test address</h1>
+        <h1 className="text-2xl">Validate address</h1>
         <div className="flex flex-col">
           <div className="flex flex-row">
             <input
@@ -129,6 +139,7 @@ export default function Home() {
       </div>
       {matchingStreet?.length > 1 && moreThanOneMatchMessage}
       {matchingStreet?.length === 1 && matchingStreetInfo}
+      {matchingStreet?.length === 0 && noMatchInfo}
     </div>
   );
 }
