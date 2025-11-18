@@ -1,6 +1,6 @@
 export const streetNumberSearch = async (streetIds: number[]) => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  const URL = `https://ws.di.no/ws/json/addressHelper/v-2/NO/streetNumberSearch/${streetIds}?apiKey=${apiKey}`;
+  const URL = `https://ws.di.no/ws/json/addressHelper/v-2/NO/streetNumberSearch/${streetIds}?apiKey=${apiKey}&limit=${70}`;
 
   try {
     const response = await fetch(URL, {
