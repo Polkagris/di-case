@@ -3,7 +3,6 @@ export const checkAddress = async (streetName: string) => {
   const URL = `https://ws.di.no/ws/json/addressHelper/v-2/NO/streetSearch/${streetName}?apiKey=${apiKey}`;
 
   try {
-    console.log("key:", apiKey);
     const response = await fetch(URL, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
