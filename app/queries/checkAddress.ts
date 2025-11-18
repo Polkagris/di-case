@@ -1,6 +1,6 @@
-export const checkAddress = async (streetName: string) => {
+export const checkAddress = async (streetName: string, cityName: string) => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  const URL = `https://ws.di.no/ws/json/addressHelper/v-2/NO/streetSearch/${streetName}?apiKey=${apiKey}`;
+  const URL = `https://ws.di.no/ws/json/addressHelper/v-2/NO/streetSearch/${streetName},${cityName}?apiKey=${apiKey}`;
 
   try {
     const response = await fetch(URL, {

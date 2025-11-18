@@ -20,10 +20,11 @@ export type StreetResponse = {
 
 export default function Home() {
   const [streetName, setStreetName] = useState("");
+  const [cityName, setCityName] = useState("");
   console.log("streetname:", streetName);
 
-  const checkForValidAddress = async (streetName: string) => {
-    const streetSearchResult = await checkAddress(streetName);
+  const checkForValidAddress = async (streetName: string, cityName: string) => {
+    const streetSearchResult = await checkAddress(streetName, cityName);
     const streetIds = streetSearchResult.streets?.map((street: Street) => {
       return street.streetIds;
     });
@@ -44,8 +45,17 @@ export default function Home() {
           onChange={(e) => setStreetName(e.target.value)}
           placeholder="adress"
           value={streetName}
+          required
         />
-        <Button onClick={() => checkForValidAddress(streetName)}>Check</Button>
+        <input
+          onChange={(e) => setCityName(e.target.value)}
+          placeholder="city"
+          value={cityName}
+          required
+        />
+        <Button onClick={() => checkForValidAddress(streetName, cityName)}>
+          Check
+        </Button>
       </div>
     </div>
   );
