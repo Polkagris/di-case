@@ -8,6 +8,7 @@ import { streetNumberSearch } from "./queries/streetNumberSearch";
 import { Street, StreetNumber, StreetNumberResponse } from "./types/types";
 import { Check, TriangleAlert, Bird } from "lucide-react";
 import { checkForValidAddress } from "./utils/checkForValidAddress";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [streetName, setStreetName] = useState("");
@@ -36,21 +37,30 @@ export default function Home() {
   };
 
   const moreThanOneMatchMessage = (
-    <div className="flex w-2/5 mt-3">
-      <TriangleAlert className="mr-2 h-12 w-12" />
-      <p>
-        Your search matched with more than one address. Use the letter-input
-        field to specify house number letter
-      </p>
+    <div className="flex mt-3">
+      <div className="flex w-1/6 md:w-1/8">
+        <TriangleAlert className="mr-2 h-12 w-12" />
+      </div>
+      <div className="flex flex-1">
+        <p>
+          Your search matched with more than one address. Use the letter-input
+          field to specify house number letter
+        </p>
+      </div>
     </div>
   );
   const matchingStreetInfo = (
-    <div className="flex flex-col w-2/5 mt-4">
-      <div className="flex ">
-        <Check className="mr-2 h-6 w-6" />
-        <p>Your search resultet in a valid address.</p>
+    <div className="flex flex-col w-full mt-4 items-center gap-4">
+      <div className="flex">
+        <div className="flex w-1/8 ">
+          <Check className="mr-2 h-6 w-6" />
+        </div>
+        <div className="flex flex-1">
+          <p>Your search resultet in a valid address.</p>
+        </div>
       </div>
-      <div className="flex mt-3">
+
+      <div className="flex flex-1">
         <p>
           Full address name: {streetName} {streetNumber} {entranceLetter}
         </p>
@@ -58,41 +68,47 @@ export default function Home() {
     </div>
   );
   const noMatchInfo = (
-    <div className="flex flex-col w-2/5 mt-4">
-      <div className="flex ">
+    <div className="flex 2-full mt-4 ">
+      <div className="flex w-1/6">
         <Bird className="mr-2 h-8 w-8" />
+      </div>
+      <div className="flex flex-1">
         <p>Your search gave no results. Please try a different address.</p>
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <div className="flex flex-col w-2/5 ">
+    <div className="flex flex-col min-h-full w-full items-center mt-8">
+      <div className="flex flex-col w-full px-4 gap-4">
         <h1 className="text-2xl">Validate address</h1>
         <div className="flex flex-col">
-          <div className="flex flex-row">
-            <input
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="streetName">Address name</Label>
+            <Input
               onChange={(e) => setStreetName(e.target.value)}
               placeholder="address"
               value={streetName}
               required
             />
-            <input
+            <Label htmlFor="streetNumber">Address number</Label>
+            <Input
               onChange={(e) => setStreetNumber(e.target.value)}
               placeholder="address number"
               value={streetNumber}
               required
             />
           </div>
-          <div className="flex">
-            <input
+          <div className="flex flex-col gap-2 mt-2">
+            <Label htmlFor="city">City/town</Label>
+            <Input
               onChange={(e) => setCityName(e.target.value)}
               placeholder="city"
               value={cityName}
               required
             />
-            <input
+            <Label htmlFor="city">Address letter</Label>
+            <Input
               onChange={(e) => setEntranceLetter(e.target.value)}
               placeholder="abc"
               value={entranceLetter}
@@ -107,9 +123,11 @@ export default function Home() {
           <Button onClick={() => handleValidationCheck()}>Check</Button>
         )}
       </div>
-      {matchingStreet?.length > 1 && moreThanOneMatchMessage}
-      {matchingStreet?.length === 1 && matchingStreetInfo}
-      {matchingStreet?.length === 0 && noMatchInfo}
+      <div className="flex w-full justify-center px-3">
+        {matchingStreet?.length > 1 && moreThanOneMatchMessage}
+        {matchingStreet?.length === 1 && matchingStreetInfo}
+        {matchingStreet?.length === 0 && noMatchInfo}
+      </div>
     </div>
   );
 }
