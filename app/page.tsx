@@ -12,11 +12,13 @@ import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [streetName, setStreetName] = useState("");
-  const [streetNumber, setStreetNumber] = useState();
+  const [streetNumber, setStreetNumber] = useState<number | "">("");
   const [cityName, setCityName] = useState("");
   const [entranceLetter, setEntranceLetter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [matchingStreet, setMatchingStreet] = useState<StreetNumber[]>([]);
+  const [matchingStreet, setMatchingStreet] = useState<StreetNumber[] | null>(
+    null
+  );
   console.log("streetname:", streetName);
   console.log("entranceLetter:", entranceLetter);
   console.log("matchingStreet:", matchingStreet);
@@ -73,13 +75,16 @@ export default function Home() {
         <Bird className="mr-2 h-8 w-8" />
       </div>
       <div className="flex flex-1">
-        <p>Your search gave no results. Please try a different address.</p>
+        <p>
+          Your search gave no results. Please try a different address, or add a
+          different number.
+        </p>
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col min-h-full w-full items-center mt-8">
+    <div className="flex flex-col min-h-full w-full items-center mt-8 md:w-1/2 md:m-auto md:mt-8">
       <div className="flex flex-col w-full px-4 gap-4">
         <h1 className="text-2xl">Validate address</h1>
         <div className="flex flex-col">
@@ -124,9 +129,11 @@ export default function Home() {
         )}
       </div>
       <div className="flex w-full justify-center px-3">
-        {matchingStreet?.length > 1 && moreThanOneMatchMessage}
-        {matchingStreet?.length === 1 && matchingStreetInfo}
-        {matchingStreet?.length === 0 && noMatchInfo}
+        {matchingStreet &&
+          matchingStreet?.length > 1 &&
+          moreThanOneMatchMessage}
+        {matchingStreet && matchingStreet?.length === 1 && matchingStreetInfo}
+        {matchingStreet && matchingStreet?.length === 0 && noMatchInfo}
       </div>
     </div>
   );
