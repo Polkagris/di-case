@@ -2,26 +2,21 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Input } from "@/components/ui/input";
-import { checkAddress } from "./queries/checkAddress";
 import { useState } from "react";
-import { streetNumberSearch } from "./queries/streetNumberSearch";
-import { Street, StreetNumber, StreetNumberResponse } from "./types/types";
+import { StreetNumber } from "./types/types";
 import { Check, TriangleAlert, Bird } from "lucide-react";
 import { checkForValidAddress } from "./utils/checkForValidAddress";
 import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [streetName, setStreetName] = useState("");
-  const [streetNumber, setStreetNumber] = useState<number | "">("");
+  const [streetNumber, setStreetNumber] = useState("");
   const [cityName, setCityName] = useState("");
   const [entranceLetter, setEntranceLetter] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [matchingStreet, setMatchingStreet] = useState<StreetNumber[] | null>(
     null
   );
-  console.log("streetname:", streetName);
-  console.log("entranceLetter:", entranceLetter);
-  console.log("matchingStreet:", matchingStreet);
 
   const handleValidationCheck = async () => {
     setIsLoading(true);
@@ -122,10 +117,10 @@ export default function Home() {
         </div>
         {isLoading ? (
           <Button disabled>
-            <Spinner /> Check
+            <Spinner /> Validate
           </Button>
         ) : (
-          <Button onClick={() => handleValidationCheck()}>Check</Button>
+          <Button onClick={() => handleValidationCheck()}>Validate</Button>
         )}
       </div>
       <div className="flex w-full justify-center px-3">

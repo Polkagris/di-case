@@ -12,9 +12,9 @@ export const streetNumberSearch = async (streetIds: number[]) => {
     }
 
     const data = response.json();
-    console.log("data:", data);
     return data;
   } catch (error) {
-    throw new Error("Catch error - Could not get address - catch", error);
+    console.error("streetNumberSearch failed:", error);
+    throw new Error("StreetNumberSearch failed - Could not get address number");
   }
 };

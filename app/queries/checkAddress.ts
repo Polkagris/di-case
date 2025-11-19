@@ -12,10 +12,10 @@ export const checkAddress = async (streetName: string, cityName: string) => {
       throw new Error("Reponse not OK - Could not get address.");
     }
     const data = await response.json();
-    console.log("data:", data);
 
     return data;
   } catch (error) {
-    throw new Error("Catch error - Could not get address.");
+    console.error("checkAddress failed:", error);
+    throw new Error("checkAddress failed - Could not get address.");
   }
 };
