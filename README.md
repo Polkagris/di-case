@@ -1,8 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a demo app for validating addresses and a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+First, run
+
+```bash
+npm install
+```
+
+then start the development server:
 
 ```bash
 npm run dev
@@ -16,21 +22,29 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+This demo app validates an address using the following parameters: street name, street number, city, and entrance letter.  
+Only one address can be validated at a time, and only a single matching result will be displayed.  
+The app will show three different status messages depending on the outcome:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. No matching result found.
+2. Multiple results found. In this case, the user is prompted to narrow the search with more specific parameters.
+3. A single matching address found and validated.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+When the validation button is pressed, a request is sent to the `streetName` API endpoint.  
+This collects all relevant streetIds for the given address.  
+Next, these streetIds are used as parameters in a second request to the `streetNumbers` API endpoint.
+The streetnumber found from the API and the one used as a parameter are compared together with the streetname.
+This returns a list of matching addresses. If more than one address matches, the user is prompted to refine the search to ensure only one result is returned.  
+Once a single address matches the provided parameters, a checkmark is displayed along with the full validated address.
 
-## Deploy on Vercel
+## TODO
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+List of features not yet implemented:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Display more data when showing matching results — for example postal code, building type, floor numbers, and entrances.
+- Support for validating more than one address at a time — for example by allowing an array of addresses to be passed to the validation function and running queries in a loop.
+- A “clear input fields” button.
+- Map integration for the matching address, using latitude and longitude to show the location (e.g., via a Google Maps iframe).
+- Disable the validation button when required data is missing.
