@@ -7,6 +7,7 @@ import { useState } from "react";
 import { streetNumberSearch } from "./queries/streetNumberSearch";
 import { Street, StreetNumber, StreetNumberResponse } from "./types/types";
 import { Check, TriangleAlert, Bird } from "lucide-react";
+import { checkForValidAddress } from "./utils/checkForValidAddress";
 
 export default function Home() {
   const [streetName, setStreetName] = useState("");
@@ -19,47 +20,21 @@ export default function Home() {
   console.log("entranceLetter:", entranceLetter);
   console.log("matchingStreet:", matchingStreet);
 
-  const checkForValidAddress = async (streetName: string, cityName: string) => {
+  const handleValidationCheck = async () => {
     setIsLoading(true);
     try {
-      const streetSearchResult = await checkAddress(streetName, cityName);
-      const streetIds = streetSearchResult.streets?.map((street: Street) => {
-        return street.streetIds;
-      });
-      const streetNumberSearchResult: StreetNumberResponse =
-        await streetNumberSearch(streetIds);
-      console.log("streetIds from query:", streetIds);
-      console.log(
-        "streetNumberSearchResult from query:",
-        streetNumberSearchResult
+      const result = await checkForValidAddress(
+        streetName,
+        cityName,
+        streetNumber ?? "",
+        entranceLetter
       );
-      console.log(
-        "streetNumberSearchResult.streetNumbers from query  results ----:",
-        streetNumberSearchResult.streetNumbers
-      );
-      // filter streetNumberSearchResult for correct number
-      const matchingStreetNumberStreet =
-        streetNumberSearchResult?.streetNumbers?.filter(
-          (street) => street.streetNo == streetNumber
-        );
-      const matchingWithEntranceLetter = matchingStreetNumberStreet?.find(
-        (street) =>
-          street.entrance?.toUpperCase() == entranceLetter.toUpperCase()
-      );
-      console.log("MATCH:", matchingStreetNumberStreet);
-      console.log("MATCH with LETTER:", matchingWithEntranceLetter);
-      const result = matchingWithEntranceLetter
-        ? [matchingWithEntranceLetter]
-        : matchingStreetNumberStreet;
-
       setMatchingStreet(result);
-      return matchingStreetNumberStreet;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const matchedAddressInfo = <div></div>;
   const moreThanOneMatchMessage = (
     <div className="flex w-2/5 mt-3">
       <TriangleAlert className="mr-2 h-12 w-12" />
@@ -125,16 +100,11 @@ export default function Home() {
           </div>
         </div>
         {isLoading ? (
-          <Button
-            disabled
-            onClick={() => checkForValidAddress(streetName, cityName)}
-          >
+          <Button disabled>
             <Spinner /> Check
           </Button>
         ) : (
-          <Button onClick={() => checkForValidAddress(streetName, cityName)}>
-            Check
-          </Button>
+          <Button onClick={() => handleValidationCheck()}>Check</Button>
         )}
       </div>
       {matchingStreet?.length > 1 && moreThanOneMatchMessage}
