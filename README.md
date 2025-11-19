@@ -48,3 +48,4 @@ List of features not yet implemented:
 - A “clear input fields” button.
 - Map integration for the matching address, using latitude and longitude to show the location (e.g., via a Google Maps iframe).
 - Disable the validation button when required data is missing.
+- Add more and better tests. For example add a test for more than one address found. Add one for no results found.
